@@ -1,0 +1,24 @@
+{
+  "name": "simple-jsx-runtime",
+  "version": "1.0.0",
+  "description": "A simple JSX runtime to componetize simple, static projects",
+  "main": "runtime-jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alandoni/simple-jsx-runtime.git"
+  },
+  "keywords": [
+    "JSX",
+    "Runtime",
+    "Babel"
+  ],
+  "author": "Alan Donizete Quintiliano",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/alandoni/simple-jsx-runtime/issues"
+  },
+  "homepage": "https://github.com/alandoni/simple-jsx-runtime#readme"
+}

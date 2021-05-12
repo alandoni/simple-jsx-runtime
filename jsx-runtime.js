@@ -49,10 +49,15 @@ function render(element, container) {
       ? container.ownerDocument.createTextNode("")
       : container.ownerDocument.createElement(element.type);
 
-  if (!element.props && element.length > 0) {
+  if (!element.props && Array.isArray(element)) {
     element.forEach((el) => {
       render(el, container);
     });
+    return;
+  }
+  if (!element.props) {
+    dom = container.ownerDocument.createTextNode(element);
+    container.appendChild(dom);
     return;
   }
 

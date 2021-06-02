@@ -1,6 +1,6 @@
 {
   "name": "simple-jsx-runtime",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "A simple JSX runtime to componetize simple, static projects",
   "main": "runtime-jsx",
   "scripts": {

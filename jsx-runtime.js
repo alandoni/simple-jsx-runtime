@@ -3,8 +3,19 @@ function jsxs(type, config) {
 }
 
 function jsx(type, config) {
+  const { children = [], ...props } = config;
+  const childrenProps = [].concat(children);
+
   if (!type) {
-    return config.children;
+    return {
+      type: "FRAGMENT",
+      props: {
+        ...props,
+        children: childrenProps.map((child) =>
+          typeof child === "object" ? child : createTextElement(child)
+        ),
+      }
+    };
   }
   if (type.prototype && type.prototype.render) {
     return new type(config).render();
@@ -13,8 +24,6 @@ function jsx(type, config) {
     return type(config);
   }
 
-  const { children = [], ...props } = config;
-  const childrenProps = [].concat(children);
   return {
     type,
     props: {
@@ -27,7 +36,7 @@ function jsx(type, config) {
 }
 
 const createFragment = (props, ...children) => {
-	return children
+  return children;
 }
 
 function createTextElement(text) {
@@ -44,10 +53,15 @@ function render(element, container) {
   if (!element) {
     return;
   }
-  const dom =
-    element.type === "TEXT_ELEMENT"
-      ? container.ownerDocument.createTextNode("")
-      : container.ownerDocument.createElement(element.type);
+  let dom = null;
+  if (element.type === "TEXT_ELEMENT") {
+    dom = container.ownerDocument.createTextNode("")
+  } else if (element.type === "FRAGMENT") {
+    element.props.children.forEach((child) => render(child, container));
+    return;
+  } else {
+    dom = container.ownerDocument.createElement(element.type);
+  }
 
   if (!element.props && Array.isArray(element)) {
     element.forEach((el) => {
@@ -68,9 +82,11 @@ function render(element, container) {
       dom[name] = element.props[name];
     });
 
-  if (element.props.children) {
+  if (element.props.children && Array.isArray(element.props.children)) {
     element.props.children.forEach((child) => render(child, dom));
+  } else {
+    console.log(element);
   }
   container.appendChild(dom);
 }
-export { jsx, jsxs, render };
+export { jsx, jsxs, render, createFragment };
